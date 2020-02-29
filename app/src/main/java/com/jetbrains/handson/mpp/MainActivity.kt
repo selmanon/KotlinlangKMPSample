@@ -3,7 +3,7 @@ package com.jetbrains.handson.mpp
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.widget.TextView
-import com.jetbrains.handson.mpp.mobile.createApplicationScreenMessage
+import com.jetbrains.handson.mpp.mobile.ApplicationApi
 
 class MainActivity : AppCompatActivity() {
 
@@ -11,6 +11,10 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
-        findViewById<TextView>(R.id.main_text).text = createApplicationScreenMessage()
+        val applicationApi = ApplicationApi()
+
+        applicationApi.about { about: String ->
+            findViewById<TextView>(R.id.main_text).text = about
+        }
     }
 }

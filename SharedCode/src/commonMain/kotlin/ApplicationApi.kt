@@ -10,6 +10,9 @@ import kotlinx.coroutines.launch
 
 internal expect val ApplicationDispatcher: CoroutineDispatcher
 
+internal expect val UiDispatcher: CoroutineDispatcher
+
+
 class ApplicationApi {
     private val client = HttpClient()
 
@@ -17,13 +20,17 @@ class ApplicationApi {
 
     fun about(callback: (String) -> Unit) {
         GlobalScope.apply {
+
             launch(ApplicationDispatcher) {
                 val result: String = client.get {
                     url(this@ApplicationApi.address.toString())
                 }
 
-                callback(result)
+                launch(UiDispatcher) {
+                    callback(result)
+
             }
         }
+    }
     }
 }
